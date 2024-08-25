@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adicionar Livros</title>
+  </head>
+  <body>
+    <form action="/add" method="post">
+      <h1>Adicionar Livros</h1>
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" style="margin: 10px" /> <br />
+      <label for="dir">DIR: </label>
+      <input type="text" name="dir" style="margin: 10px" /> <br />
+      <label for="idioma">idioma:</label>
+      <input type="text" name="idioma" style="margin: 10px" /> <br />
+      <label for="isbn">ISBN:</label>
+      <input type="text" name="isbn" style="margin: 10px" /> <br />
+      <button type="submit">Submit</button>
+    </form>
+    <table style="border: 1px solid black; margin-top: 20px;">
+        <thead>
+            <th style="border: 1px solid black;">ID</th>
+            <th style="border: 1px solid black;">Nome</th>
+            <th style="border: 1px solid black;">Idioma</th>
+            <th style="border: 1px solid black;">ISBN</th>
+            <th style="border: 1px solid black;">DIR</th>
+        </thead>
+        <tbody>
+            <div class="content">
+                <% if (livros.length > 0) { %> <% livros.forEach(livro => { %>
+                <tr>
+                  <td style="border: 1px solid black;"><%= livro.id %></td>
+                  <td style="border: 1px solid black;"><%= livro.nome %></td>
+                  <td style="border: 1px solid black;"><%= livro.idioma %></td>
+                  <td style="border: 1px solid black;"><%= livro.isbn %></td>
+                  <td style="border: 1px solid black;"><%= livro.dir %></td>
+                </tr>
+          
+                <% }) %> <% } else { %>
+                <tr>
+                  <td style="border: 1px solid black;"></td>
+                  <td style="border: 1px solid black;">Não há motoristas para exibir</td>
+                  <td style="border: 1px solid black;"></td>
+                  <td style="border: 1px solid black;"></td>
+                  <td style="border: 1px solid black;"></td>
+                </tr>
+                <% } %>
+              </div>
+        </tbody>
+    </table>
+  </body>
+</html>
