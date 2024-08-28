@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const EPub = require("epub");
 const fs = require("fs");
+const path = require("path");
 
 const port = 8080;
 
@@ -62,22 +63,22 @@ app.get("/apagar/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const livro = await BooksModel.findOne({ _id: id }, "dir");
-    fs.unlink('repositorio/' + livro.dir, (err) => {
+    fs.unlink("repositorio/" + livro.dir, (err) => {
       if (err) {
         // An error occurred while deleting the file
-        if (err.code === 'ENOENT') {
+        if (err.code === "ENOENT") {
           // The file does not exist
-          console.error('The file does not exist');
-          res.status(500).send('The file does not exist');
+          console.error("The file does not exist");
+          res.status(500).send("The file does not exist");
         } else {
           // Some other error
           console.error(err.message);
         }
       } else {
         // The file was deleted successfully
-        console.log('The file was deleted');
+        console.log("The file was deleted");
       }
-    });    
+    });
     const user = await BooksModel.findByIdAndDelete(id);
 
     res.redirect("/add");
@@ -100,9 +101,10 @@ app.get("/editar/:id", async function (req, res) {
 app.post("/editar/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const user = await BooksModel.findByIdAndUpdate(id, req.body, { new: true });
+    const user = await BooksModel.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     console.log(user);
-    
 
     res.status(201).redirect("/add");
   } catch (error) {
@@ -130,28 +132,27 @@ app.get("/add", async function (req, res) {
   }
 });
 
-
-app.post("/add", await upload.single("epubFile"), async (req, res) => {
+app.post("/add", upload.single("epubFile"), async (req, res) => {
   if (req.file) {
-    let md_epub = {};
-    await getEPUBMetadata('repositorio/' + req.file.filename)
-    .then(metadata => {
-        md_epub = metadata
-        console.log(metadata);
-    })
-    .catch(error => {
-        console.error("Erro ao ler o arquivo EPUB:", error);
-    })
-    let dados = {
-      "nome": md_epub.title,
-      "dir": req.file.filename,
-      "idioma": md_epub.language.toUpperCase() || '',
-      "isbn": md_epub.isbn || md_epub.ISBN || ''
-    }
-    const livro = await BooksModel.create(dados);
+    try {
+      let md_epub = await getEPUBMetadata(
+        path.join("repositorio", req.file.filename)
+      );
+      console.log(md_epub);
+      let dados = {
+        nome: md_epub.title,
+        dir: req.file.filename,
+        idioma: md_epub.language.toUpperCase() || "",
+        isbn: md_epub.isbn || md_epub.ISBN || "",
+      };
+      const livro = await BooksModel.create(dados);
 
-    console.log(dados);
-    res.redirect("./add");
+      console.log(dados);
+      res.redirect("./add");
+    } catch (error) {
+      console.error("Erro ao processar o arquivo EPUB:", error);
+      res.status(500).send("Erro interno ao processar o arquivo.");
+    }
   } else {
     return res.status(400).send("Nenhum arquivo foi enviado.");
   }
