@@ -61,6 +61,23 @@ app.get("/download/:id", async function (req, res) {
 app.get("/apagar/:id", async (req, res) => {
   try {
     const id = req.params.id;
+    const livro = await BooksModel.findOne({ _id: id }, "dir");
+    fs.unlink('repositorio/' + livro.dir, (err) => {
+      if (err) {
+        // An error occurred while deleting the file
+        if (err.code === 'ENOENT') {
+          // The file does not exist
+          console.error('The file does not exist');
+          res.status(500).send('The file does not exist');
+        } else {
+          // Some other error
+          console.error(err.message);
+        }
+      } else {
+        // The file was deleted successfully
+        console.log('The file was deleted');
+      }
+    });    
     const user = await BooksModel.findByIdAndDelete(id);
 
     res.redirect("/add");
