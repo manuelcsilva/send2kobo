@@ -4,46 +4,77 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adicionar Livros</title>
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon" />
+    <style>
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover {
+        background-color: #111;
+      }
+    </style>
   </head>
   <body>
-    <form action="/add" method="post">
-      <h1>Adicionar Livros</h1>
-      <label for="nome">Nome:</label>
-      <input type="text" name="nome" style="margin: 10px" /> <br />
-      <label for="dir">DIR: </label>
-      <input type="text" name="dir" style="margin: 10px" /> <br />
-      <label for="idioma">idioma:</label>
-      <input type="text" name="idioma" style="margin: 10px" /> <br />
-      <label for="isbn">ISBN:</label>
-      <input type="text" name="isbn" style="margin: 10px" /> <br />
+    <ul>
+      <li><a><strong>Adicionar Livros</strong></a></li>
+      <li><a href="/">Livros</a></li>
+    </ul>
+    <form action="/add" method="post" enctype="multipart/form-data">
+      <h2>Adicionar</h2>
+      <label for="dir">File: </label>
+      <input type="file" name="epubFile" style="margin: 10px" /> <br />
       <button type="submit">Submit</button>
     </form>
+    <h2>Banco de Dados</h2>
     <table style="border: 1px solid black; margin-top: 20px;">
         <thead>
             <th style="border: 1px solid black;">ID</th>
             <th style="border: 1px solid black;">Nome</th>
             <th style="border: 1px solid black;">Idioma</th>
             <th style="border: 1px solid black;">ISBN</th>
-            <th style="border: 1px solid black;">DIR</th>
+            <th style="border: 1px solid black;">Path</th>
+            <th style="border: 1px solid black;">Remover</th>
+            <th style="border: 1px solid black;">Editar</th>
         </thead>
         <tbody>
             <div class="content">
                 <% if (livros.length > 0) { %> <% livros.forEach(livro => { %>
                 <tr>
-                  <td style="border: 1px solid black;"><%= livro.id %></td>
-                  <td style="border: 1px solid black;"><%= livro.nome %></td>
-                  <td style="border: 1px solid black;"><%= livro.idioma %></td>
-                  <td style="border: 1px solid black;"><%= livro.isbn %></td>
-                  <td style="border: 1px solid black;"><%= livro.dir %></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><%= livro.id %></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><%= livro.nome %></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px; text-align: center;"><%= livro.idioma %></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><%= livro.isbn %></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><%= livro.dir %></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><button><a href="<%= `/apagar/${livro.id}` %>" style="text-decoration: none; color: rgb(0, 0, 0);">Remover</a></button></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><button><a href="<%= `/editar/${livro.id}` %>" style="text-decoration: none; color: rgb(0, 0, 0);">Editar</a></button></td>
                 </tr>
           
                 <% }) %> <% } else { %>
                 <tr>
-                  <td style="border: 1px solid black;"></td>
-                  <td style="border: 1px solid black;">Não há motoristas para exibir</td>
-                  <td style="border: 1px solid black;"></td>
-                  <td style="border: 1px solid black;"></td>
-                  <td style="border: 1px solid black;"></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;">Não há livros para exibir</td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+                  <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
                 </tr>
                 <% } %>
               </div>

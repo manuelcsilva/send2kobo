@@ -15,7 +15,7 @@ const booksSchema = new mongoose.Schema({
   }, 
   isbn: {
     type: String,
-    required: true
+    required: false
   }
 });
 

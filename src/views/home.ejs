@@ -4,38 +4,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adicionar Livros</title>
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon" />
+    <style>
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover {
+        background-color: #111;
+      }
+    </style>
   </head>
   <body>
-    <table style="border: 1px solid black; margin-top: 20px;">
-        <thead>
-            <th style="border: 1px solid black;">ID</th>
-            <th style="border: 1px solid black;">Nome</th>
-            <th style="border: 1px solid black;">Idioma</th>
-            <th style="border: 1px solid black;">ISBN</th>
-            <th style="border: 1px solid black;">Download</th>
-        </thead>
-        <tbody>
-            <div class="content">
-                <% if (livros.length > 0) { %> <% livros.forEach(livro => { %>
-                <tr>
-                  <td style="border: 1px solid black;"><%= livro.id %></td>
-                  <td style="border: 1px solid black;"><%= livro.nome %></td>
-                  <td style="border: 1px solid black;"><%= livro.idioma %></td>
-                  <td style="border: 1px solid black;"><%= livro.isbn %></td>
-                  <td style="border: 1px solid black;"><button><a href="./download/<%= livro.id %>">Download</a></button></td>
-                </tr>
-          
-                <% }) %> <% } else { %>
-                <tr>
-                  <td style="border: 1px solid black;"></td>
-                  <td style="border: 1px solid black;">Não há motoristas para exibir</td>
-                  <td style="border: 1px solid black;"></td>
-                  <td style="border: 1px solid black;"></td>
-                  <td style="border: 1px solid black;"></td>
-                </tr>
-                <% } %>
-              </div>
-        </tbody>
+    <ul>
+      <li><a><strong>Livros</strong></a></li>
+      <li><a href="/add">Adicionar Livros</a></li>
+    </ul>
+    <h2>Livros</h2>
+    <table style="border: 1px solid black; margin-top: 20px">
+      <thead>
+        <th style="border: 1px solid black">ID</th>
+        <th style="border: 1px solid black">Nome</th>
+        <th style="border: 1px solid black; padding-left: 5px; padding-right: 5px;">Idioma</th>
+        <th style="border: 1px solid black">ISBN</th>
+        <th style="border: 1px solid black">Download</th>
+      </thead>
+      <tbody>
+        <div class="content">
+          <% if (livros.length > 0) { %> <% livros.forEach(livro => { %>
+          <tr>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><%= livro.id %></td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><%= livro.nome %></td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px; text-align: center;"><%= livro.idioma %></td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"><%= livro.isbn %></td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;">
+              <button ><a href="./download/<%= livro.id %>" style="text-decoration: none; color: rgb(0, 0, 0);">Download</a></button>
+            </td>
+          </tr>
+
+          <% }) %> <% } else { %>
+          <tr>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;">
+              Não há livros para exibir
+            </td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+            <td style="border: 1px solid black; padding-left: 5px; padding-right: 5px;"></td>
+          </tr>
+          <% } %>
+        </div>
+      </tbody>
     </table>
   </body>
 </html>

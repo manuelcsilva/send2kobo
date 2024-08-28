@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adicionar Livros</title>
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon" />
+    <style>
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover {
+        background-color: #111;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li>
+        <a><strong>Adicionar Livros</strong></a>
+      </li>
+      <li><a href="/">Livros</a></li>
+    </ul>
+    <form action="/editar/<%= livro.id %>" method="post">
+      <h1>Livro</h1>
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" style="margin: 10px; width: 400px;" value="<%= livro.nome %>"/> <br />
+      <label for="dir">File: </label>
+      <input type="text" name="dir" style="margin: 10px; width: 400px;" value="<%= livro.dir %>"/> <br />
+      <label for="idioma">Idioma:</label>
+      <input type="text" name="idioma" style="margin: 10px" value="<%= livro.idioma %>"/> <br />
+      <label for="isbn">ISBN:</label>
+      <input type="text" name="isbn" style="margin: 10px" value="<%= livro.isbn %>"/> <br />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
