@@ -135,6 +135,7 @@ app.get("/add", async function (req, res) {
 app.post("/add", upload.single("epubFile"), async (req, res) => {
   if (req.file) {
     try {
+      await new Promise(resolve => setTimeout(resolve, 5000));
       let md_epub = await getEPUBMetadata(
         path.join("repositorio", req.file.filename)
       );
