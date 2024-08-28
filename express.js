@@ -131,7 +131,7 @@ app.get("/add", async function (req, res) {
 });
 
 
-app.post("/add", upload.single("epubFile"), async (req, res) => {
+app.post("/add", await upload.single("epubFile"), async (req, res) => {
   if (req.file) {
     let md_epub = {};
     await getEPUBMetadata('repositorio/' + req.file.filename)
@@ -146,7 +146,7 @@ app.post("/add", upload.single("epubFile"), async (req, res) => {
       "nome": md_epub.title,
       "dir": req.file.filename,
       "idioma": md_epub.language.toUpperCase() || '',
-      "isbn": md_epub.isbn || ''
+      "isbn": md_epub.isbn || md_epub.ISBN || ''
     }
     const livro = await BooksModel.create(dados);
 
