@@ -135,9 +135,8 @@ app.get("/add", async function (req, res) {
 app.post("/add", upload.single("epubFile"), async (req, res) => {
   if (req.file) {
     try {
-      await new Promise(resolve => setTimeout(resolve, 5000));
       let md_epub = await getEPUBMetadata(
-        path.join("repositorio", req.file.filename)
+        path.join("./repositorio", req.file.filename)
       );
       console.log(md_epub);
       let dados = {
@@ -149,7 +148,27 @@ app.post("/add", upload.single("epubFile"), async (req, res) => {
       const livro = await BooksModel.create(dados);
 
       console.log(dados);
+
       res.redirect("./add");
+      // delete
+      await new Promise((resolve) => setTimeout(resolve, 900000));
+      const id = livro.id;
+      await BooksModel.findByIdAndDelete(id);
+      fs.unlink("repositorio/" + livro.dir, (err) => {
+        if (err) {
+          // An error occurred while deleting the file
+          if (err.code === "ENOENT") {
+            // The file does not exist
+            console.error("The file does not exist");
+          } else {
+            // Some other error
+            console.error(err.message);
+          }
+        } else {
+          // The file was deleted successfully
+          console.log("The file was deleted");
+        }
+      });
     } catch (error) {
       console.error("Erro ao processar o arquivo EPUB:", error);
       res.status(500).send("Erro interno ao processar o arquivo.");
